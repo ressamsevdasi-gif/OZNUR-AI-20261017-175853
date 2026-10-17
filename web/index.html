@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#080c13">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>ÖZNUR AI</title>
+<link rel="manifest" href="/manifest.webmanifest">
+<style>
+:root{--bg:#080c13;--panel:#101722;--panel2:#151e2c;--line:#273449;--text:#edf3fa;--muted:#91a0b5;--accent:#8eb8ff;--good:#68d49a;--warn:#f0c76d;--danger:#ed7b7b}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+body{overflow:hidden}.app{height:100dvh;display:grid;grid-template-columns:252px 1fr}
+aside{border-right:1px solid var(--line);background:#0b1018;padding:17px 13px;display:flex;flex-direction:column}
+.brand{display:flex;align-items:center;gap:10px;padding:4px 8px 24px}.logo{width:43px;height:43px;border:1px solid #40516c;border-radius:14px;display:grid;place-items:center;font-weight:900;background:linear-gradient(145deg,#18253a,#0d121b)}.brand b{font-size:16px;letter-spacing:2px}.brand small{display:block;color:var(--muted);font-size:9px;letter-spacing:1px;margin-top:3px}
+nav{display:grid;gap:6px}.nav{padding:11px 12px;border:1px solid transparent;border-radius:11px;color:var(--muted);cursor:pointer}.nav.active,.nav:hover{background:var(--panel2);border-color:var(--line);color:var(--text)}
+.sidebox{margin-top:auto;border:1px solid var(--line);border-radius:13px;padding:11px;font-size:11px;color:var(--muted);line-height:1.6}.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--good);margin-right:5px}
+main{min-width:0;display:flex;flex-direction:column}.topbar{height:66px;flex:none;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 20px}.title{font-weight:750}.top-actions{display:flex;gap:7px;align-items:center}.pill,.btn{border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:10px;padding:7px 10px;font-size:11px;cursor:pointer}.pill.good{color:var(--good)}
+.content{flex:1;min-height:0;overflow:auto;padding:22px}.view{display:none;max-width:1080px;margin:auto}.view.active{display:block}.hero{min-height:calc(100dvh - 110px);display:grid;place-items:center}
+.upload{width:min(490px,100%);min-height:310px;border:1px dashed #45546d;border-radius:27px;background:radial-gradient(circle at 50% 0,#18263b,#0e141e 60%);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;text-align:center;padding:30px;transition:.2s}.upload:hover,.upload.drag{border-color:var(--accent);transform:translateY(-2px)}.zipicon{width:78px;height:78px;border-radius:21px;background:#182337;border:1px solid #34445e;display:grid;place-items:center;font-weight:900;font-size:23px;margin-bottom:18px}.upload h1{font-size:22px;margin:0 0 8px}.upload p{color:var(--muted);font-size:13px;line-height:1.6;margin:0}.hint{margin-top:18px;font-size:11px;color:#6e7d91}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.card{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:15px}.card b{display:block;font-size:20px}.card span{color:var(--muted);font-size:10px}
+.panel{margin-top:14px;background:var(--panel);border:1px solid var(--line);border-radius:15px;overflow:hidden}.panel h3{margin:0;padding:13px 15px;border-bottom:1px solid var(--line);font-size:13px}.panelbody{padding:15px}.tree{font:11px/1.7 ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre-wrap;color:#cbd5e3}
+.filetools{display:flex;gap:8px;margin-bottom:10px}.filetools input{flex:1;background:#0d131c;color:var(--text);border:1px solid var(--line);border-radius:10px;padding:10px;outline:none}.filelist{display:grid;gap:2px;max-height:55vh;overflow:auto}.file{display:flex;justify-content:space-between;gap:10px;padding:9px;border-bottom:1px solid #1c2634;font:11px ui-monospace,monospace}.file span:first-child{overflow-wrap:anywhere}.file span:last-child{color:var(--muted);white-space:nowrap}
+.chat{display:flex;flex-direction:column;gap:12px}.msg{max-width:950px}.label{font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:5px}.bubble{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px 14px;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.55;font-size:13px}.formal{font:11px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace;background:#0c1119}
+.composer{position:sticky;bottom:0;margin:18px -22px -22px;padding:12px 22px;background:#0b1017;border-top:1px solid var(--line);display:flex;gap:8px}.composer input{flex:1;min-width:0;background:var(--panel);border:1px solid var(--line);border-radius:12px;color:var(--text);padding:12px;outline:none}.composer button{width:48px;border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:12px;cursor:pointer;font-size:17px}
+.setting{display:grid;grid-template-columns:180px 1fr;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid #1e2938}.setting:last-child{border:0}.setting label{font-size:12px}.setting input,.setting select{width:100%;background:#0d131c;color:var(--text);border:1px solid var(--line);border-radius:10px;padding:10px}.check{display:flex;gap:8px;align-items:center;font-size:12px}.empty{color:var(--muted);font-size:13px;padding:18px 0}
+.toast{position:fixed;right:18px;bottom:18px;background:#141c28;border:1px solid var(--line);padding:11px 14px;border-radius:12px;font-size:12px;display:none;z-index:50}
+@media(max-width:760px){.app{grid-template-columns:1fr}aside{position:fixed;z-index:20;bottom:0;left:0;right:0;height:64px;padding:6px 8px;border-right:0;border-top:1px solid var(--line);flex-direction:row;align-items:center}.brand,.sidebox{display:none}nav{width:100%;grid-template-columns:repeat(5,1fr);gap:3px}.nav{text-align:center;font-size:10px;padding:9px 2px}.topbar{height:58px;padding:0 13px}.content{padding:14px}.hero{min-height:calc(100dvh - 130px)}.grid{grid-template-columns:repeat(2,1fr)}.composer{margin:14px -14px -14px;padding:10px 14px}.setting{grid-template-columns:1fr}.top-actions .btn{display:none}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside>
+<div class="brand"><div class="logo">ÖZ</div><div><b>ÖZNUR AI</b><small>CODE UNDERSTANDING</small></div></div>
+<nav>
+<div class="nav active" data-view="home">Başlangıç</div>
+<div class="nav" data-view="analysis">Analiz</div>
+<div class="nav" data-view="files">Dosyalar</div>
+<div class="nav" data-view="chat">Mesaj</div>
+<div class="nav" data-view="settings">Ayarlar</div>
+</nav>
+<div class="sidebox"><span class="dot"></span><span id="net">Yerel / çevrimdışı</span><br><span id="apiState">API kontrol ediliyor…</span></div>
+</aside>
+<main>
+<div class="topbar"><div class="title" id="pageTitle">Başlangıç</div><div class="top-actions"><button class="btn" id="install" hidden>Kur</button><button class="pill good" id="mode">OFFLINE</button></div></div>
+<div class="content">
+<section id="home" class="view active"><div class="hero">
+<label class="upload" id="drop" for="fileInput"><div class="zipicon">ZIP</div><h1>Proje ekle</h1><p>ZIP dosyasını seç veya buraya sürükle.<br>Yerel analiz, proje haritası ve dosya hafızası oluşturulur.</p><div class="hint">Kod çalıştırılmaz • ZIP buluta gönderilmez • çevrimdışı çalışabilir</div></label>
+<input id="fileInput" type="file" accept=".zip,application/zip">
+</div></section>
+<section id="analysis" class="view"><div class="grid" id="stats"></div><div class="panel"><h3>Proje özeti</h3><div class="panelbody" id="summary"></div></div><div class="panel"><h3>Proje haritası</h3><div class="panelbody tree" id="tree"></div></div><div class="panel"><h3>İşlemler</h3><div class="panelbody"><button class="btn" id="export">Analiz raporunu dışa aktar</button> <button class="btn" id="newProject">Yeni proje</button></div></div></section>
+<section id="files" class="view"><div class="panel"><h3>ZIP içeriği</h3><div class="panelbody"><div class="filetools"><input id="fileSearch" placeholder="Dosya ara…"></div><div class="filelist" id="filelist"></div></div></div></section>
+<section id="chat" class="view"><div class="chat" id="messages"><div class="msg"><div class="label">Sistem</div><div class="bubble">ZIP eklediğinde proje bilgisi burada görünür. Sorular yerel proje özetine göre yanıtlanır.</div></div></div><div class="composer"><input id="q" placeholder="Proje hakkında mesaj yaz…"><button id="send">➤</button></div></section>
+<section id="settings" class="view"><div class="panel"><h3>Uygulama</h3><div class="panelbody">
+<div class="setting"><label>Çalışma modu</label><select id="modeSelect"><option value="offline">Çevrimdışı</option><option value="online">Çevrimiçi / API</option><option value="auto">Otomatik</option></select></div>
+<div class="setting"><label>API adresi</label><input id="apiUrl" value="http://127.0.0.1:8788"></div>
+<div class="setting"><label>Yerel geçmiş</label><label class="check"><input id="history" type="checkbox" checked> Proje özetini cihazda sakla</label></div>
+<div class="setting"><label>PWA</label><div><button class="btn" id="install2">Uygulamayı kur</button></div></div>
+<div class="setting"><label>Veri temizleme</label><div><button class="btn" id="clear">Yerel proje hafızasını temizle</button></div></div>
+</div></div></section>
+</div></main></div>
+<div class="toast" id="toast"></div>
+<script>
+"use strict";
+const $=s=>document.querySelector(s), views=["home","analysis","files","chat","settings"];
+let project=null,deferredInstall=null;
+const saved=JSON.parse(localStorage.getItem("oznurai.settings")||"{}");
+$("#apiUrl").value=saved.apiUrl||location.origin;
+$("#modeSelect").value=saved.mode||"auto";
+$("#history").checked=saved.history!==false;
+function esc(s){return String(s).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
+function show(v){views.forEach(x=>$("#"+x).classList.toggle("active",x===v));document.querySelectorAll(".nav").forEach(n=>n.classList.toggle("active",n.dataset.view===v));$("#pageTitle").textContent={home:"Başlangıç",analysis:"Proje Analizi",files:"Dosyalar",chat:"Mesaj",settings:"Ayarlar"}[v]}
+document.querySelectorAll(".nav").forEach(n=>n.onclick=()=>show(n.dataset.view));
+function toast(t){$("#toast").textContent=t;$("#toast").style.display="block";setTimeout(()=>$("#toast").style.display="none",2300)}
+function saveSettings(){localStorage.setItem("oznurai.settings",JSON.stringify({apiUrl:$("#apiUrl").value.trim(),mode:$("#modeSelect").value,history:$("#history").checked}));updateMode()}
+function updateMode(){const m=$("#modeSelect").value;$("#mode").textContent=m==="offline"?"OFFLINE":m==="online"?"ONLINE":"AUTO";$("#net").textContent=navigator.onLine?"İnternet mevcut":"İnternet yok / çevrimdışı"}
+$("#modeSelect").onchange=saveSettings;$("#apiUrl").onchange=saveSettings;$("#history").onchange=saveSettings;window.addEventListener("online",updateMode);window.addEventListener("offline",updateMode);updateMode();
+
+async function localZip(file){
+ const b=new Uint8Array(await file.arrayBuffer()); const dv=new DataView(b.buffer);
+ let eocd=-1; for(let i=b.length-22;i>=Math.max(0,b.length-65557);i--){if(dv.getUint32(i,true)===0x06054b50){eocd=i;break}}
+ if(eocd<0)throw Error("Geçerli ZIP sonlandırma kaydı bulunamadı.");
+ const count=dv.getUint16(eocd+10,true),cdSize=dv.getUint32(eocd+12,true),cdOff=dv.getUint32(eocd+16,true);
+ let p=cdOff,files=[],textFiles=[],chars=0,lines=0,code=0,exts={};
+ for(let k=0;k<count;k++){
+  if(dv.getUint32(p,true)!==0x02014b50)break;
+  const method=dv.getUint16(p+10,true),size=dv.getUint32(p+24,true),csize=dv.getUint32(p+20,true),nl=dv.getUint16(p+28,true),xl=dv.getUint16(p+30,true),cl=dv.getUint16(p+32,true);
+  const name=new TextDecoder().decode(b.slice(p+46,p+46+nl));p+=46+nl+xl+cl;
+  if(name.endsWith("/"))continue; let ex=(name.split(".").pop()||"[uzantısız]").toLowerCase();exts[ex]=(exts[ex]||0)+1;
+  const item={path:name,size};files.push(item);
+  if(["py","js","ts","jsx","tsx","java","kt","kts","c","cpp","h","hpp","cs","go","rs","php","rb","swift","dart","sh","ps1","html","css","json","xml","yaml","yml","toml","md","txt"].includes(ex)){
+   try{
+    const lstart=dv.getUint32(findLocal(b,p, name),true); // unused fallback
+   }catch(_){}
+   // Central directory does not expose local offset after p advanced; recover by name scan.
+   try{
+    let q=30; let found=-1; while(q<b.length-30){if(dv.getUint32(q,true)===0x04034b50){const nn=dv.getUint16(q+26,true);const xx=dv.getUint16(q+28,true);const nm=new TextDecoder().decode(b.slice(q+30,q+30+nn));if(nm===name){found=q;break}q+=30+nn+xx+dv.getUint32(q+18,true)}else q++}
+    if(found>=0){const nn=dv.getUint16(found+26,true),xx=dv.getUint16(found+28,true),start=found+30+nn+xx;let raw=b.slice(start,start+csize),data;if(method===0)data=raw;else if(method===8&&"DecompressionStream" in window){const ds=new DecompressionStream("deflate-raw");data=new Uint8Array(await new Response(new Blob([raw]).stream().pipeThrough(ds)).arrayBuffer())}else data=null;if(data){const text=new TextDecoder().decode(data);item.text=text;chars+=text.length;lines+=text.split(/\r\n|\r|\n/).length;if(["py","js","ts","jsx","tsx","java","kt","kts","c","cpp","cs","go","rs","php","rb","swift","dart","sh","ps1"].includes(ex))code++;textFiles.push(item)}}}
+   }catch(_){}
+  }
+ }
+ return makeProject(file.name,files,textFiles,chars,lines,code,exts);
+}
+function findLocal(){return 0}
+function makeProject(name,files,textFiles,chars,lines,code,exts){const dirs={};files.forEach(f=>{const d=f.path.split("/");if(d.length>1)dirs[d[0]]=(dirs[d[0]]||0)+1});return {name,files,textFiles,summary:{files:files.length,text_files:textFiles.length,code_files:code,lines,characters:chars,extensions:exts,description:"ZIP içeriği yalnızca okunmuş ve yapısal olarak analiz edilmiştir. Kod çalıştırılmamıştır."},tree:files.slice(0,1200).map(f=>"├─ "+f.path).join("\n")}}
+async function apiAnalyze(file){
+ const url=($("#apiUrl").value||location.origin).replace(/\/$/,"")+"/api/analyze";const fd=new FormData();fd.append("file",file);const r=await fetch(url,{method:"POST",body:fd});if(!r.ok)throw Error(await r.text());return r.json()
+}
+async function load(file){
+ try{
+  const mode=$("#modeSelect").value;let p;
+  if(mode!=="offline"&&(mode==="online"||navigator.onLine)){try{p=await apiAnalyze(file)}catch(e){if(mode==="online")throw e}}
+  if(!p)p=await localZip(file);project=p;render();show("analysis");if($("#history").checked)localStorage.setItem("oznurai.lastProject",JSON.stringify({name:p.name,summary:p.summary,tree:p.tree}));toast("Proje analiz edildi.")
+ }catch(e){toast("Analiz hatası: "+e.message)}
+}
+const drop=$("#drop");$("#fileInput").onchange=e=>e.target.files[0]&&load(e.target.files[0]);
+["dragenter","dragover"].forEach(x=>drop.addEventListener(x,e=>{e.preventDefault();drop.classList.add("drag")}));
+["dragleave","drop"].forEach(x=>drop.addEventListener(x,e=>{e.preventDefault();drop.classList.remove("drag")}));
+drop.addEventListener("drop",e=>{const f=[...e.dataTransfer.files][0];if(f&&/\.zip$/i.test(f.name))load(f)});
+function render(){const s=project.summary;$("#stats").innerHTML=[["DOSYA",s.files],["METİN",s.text_files],["KOD",s.code_files],["SATIR",s.lines.toLocaleString("tr-TR")]].map(x=>`<div class="card"><b>${x[1]}</b><span>${x[0]}</span></div>`).join("");$("#summary").innerHTML=`<b>${esc(project.name)}</b><br><br>${esc(s.description)}<br><br>Karakter: ${s.characters.toLocaleString("tr-TR")}<br>Uzantılar: ${esc(Object.entries(s.extensions).map(x=>x[0]+": "+x[1]).join(" • "))}`;$("#tree").textContent=project.tree;renderFiles("")}
+function renderFiles(q){const a=(project?.files||[]).filter(f=>f.path.toLowerCase().includes(q.toLowerCase()));$("#filelist").innerHTML=a.map(f=>`<div class="file"><span>${esc(f.path)}</span><span>${f.size.toLocaleString("tr-TR")} B</span></div>`).join("")||'<div class="empty">Dosya bulunamadı.</div>'}
+$("#fileSearch").oninput=e=>renderFiles(e.target.value);
+$("#newProject").onclick=()=>{project=null;$("#fileInput").value="";show("home")};
+$("#export").onclick=()=>{if(!project)return;const blob=new Blob([JSON.stringify(project,null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=(project.name.replace(/\.zip$/i,"")||"proje")+"_analiz.json";a.click();URL.revokeObjectURL(a.href)};
+function add(label,text,formal=false){const d=document.createElement("div");d.className="msg";d.innerHTML=`<div class="label">${esc(label)}</div><div class="bubble ${formal?"formal":""}">${esc(text)}</div>`;$("#messages").appendChild(d);$("#messages").scrollTop=1e9}
+async function send(){const q=$("#q").value.trim();if(!q)return;add("İnsan Dili",q);add("Bilgisayar Dili",`QUERY\n INPUT="${q}"\n PROJECT="${project?.name||"YOK"}"\n MODE="${$("#modeSelect").value}"\n EXECUTION="DISABLED"`,true);let ans;if(!project)ans="Önce bir ZIP projesi ekleyin.";else ans=`${project.name} projesinde ${project.summary.files} dosya, ${project.summary.code_files} kod dosyası, ${project.summary.lines.toLocaleString("tr-TR")} satır ve ${project.summary.characters.toLocaleString("tr-TR")} karakter analiz edildi. Bu sürüm yerel proje bilgisini kullanır; kod çalıştırmaz.`;if($("#modeSelect").value!=="offline"&&navigator.onLine){try{const u=($("#apiUrl").value||location.origin).replace(/\/$/,"")+"/api/query";const r=await fetch(u,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({question:q,project})});if(r.ok)ans=(await r.json()).answer}catch(_){}}add("ÖZNUR AI",ans);$("#q").value=""}
+$("#send").onclick=send;$("#q").onkeydown=e=>{if(e.key==="Enter"){e.preventDefault();send()}};
+$("#clear").onclick=()=>{localStorage.removeItem("oznurai.lastProject");toast("Yerel proje hafızası temizlendi.")};
+window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredInstall=e;$("#install").hidden=false});
+async function install(){if(deferredInstall){deferredInstall.prompt();await deferredInstall.userChoice;deferredInstall=null}else toast("Tarayıcı menüsünden 'Ana ekrana ekle' seçeneğini kullanabilirsiniz.")}
+$("#install").onclick=install;$("#install2").onclick=install;
+if("serviceWorker" in navigator)navigator.serviceWorker.register("/sw.js").catch(()=>{});
+async function health(){try{const u=($("#apiUrl").value||location.origin).replace(/\/$/,"")+"/api/health";const r=await fetch(u,{cache:"no-store"});$("#apiState").textContent=r.ok?"Yerel API hazır":"API ulaşılamıyor"}catch(_){$("#apiState").textContent="API kapalı — offline mod kullanılabilir"}}
+health();
+</script>
+</body></html>
